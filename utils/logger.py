@@ -9,7 +9,7 @@ import shutil
 
 class Logger():
     def __init__(self, opts):
-        time_stamp = '_{}'.format(datetime.now().strftime('%Y-%m-%d_%H:%M'))
+        time_stamp = '_{}'.format(datetime.now().strftime('%Y-%m-%d_%H-%M'))
         self.opts = opts
         self.log_dir = os.path.join(opts.log_dir, opts.name+time_stamp)
         self.phase_keys = ['train', 'val', 'test']

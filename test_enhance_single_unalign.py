@@ -100,7 +100,7 @@ if __name__ == '__main__':
     print('======> Loading images, crop and align faces.')
     img_path = opt.test_img_path
     img = dlib.load_rgb_image(img_path)
-    assert (img.shape == (512, 512, 3), 'Input image size should be 512 * 512 with 3 channels.')
+    assert img.shape == (512, 512, 3), 'Input image size should be 512 * 512 with 3 channels.'
     # aligned_faces, tform_params = detect_and_align_faces(img, face_detector, lmk_predictor, template_path)
     aligned_faces, tform_params = np.array([img]), None
     # Save aligned LQ faces

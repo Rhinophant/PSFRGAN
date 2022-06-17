@@ -36,11 +36,11 @@ class BaseDataset(data.Dataset, ABC):
         """Add new dataset-specific options, and rewrite default values for existing options.
 
         Parameters:
-            parser          -- original option parser
+            opt          -- original option opt
             is_train (bool) -- whether training phase or test phase. You can use this flag to add training-specific or test-specific options.
 
         Returns:
-            the modified parser.
+            the modified opt.
         """
         return parser
 

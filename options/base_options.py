@@ -27,7 +27,7 @@ class BaseOptions():
         parser.add_argument('--name', type=str, default='experiment_name', help='name of the experiment. It decides where to store samples and models')
         parser.add_argument('--gpus', type=int, default=1, help='how many gpus to use')
         parser.add_argument('--seed', type=int, default=123, help='Random seed for training')
-        parser.add_argument('--checkpoints_dir', type=str, default='./check_points', help='models are saved here')
+        parser.add_argument('--checkpoints_dir', type=str, default='.\check_points', help='models are saved here')
         # model parameters
         parser.add_argument('--model', type=str, default='enhance', help='chooses which model to train [parse|enhance]')
         parser.add_argument('--input_nc', type=int, default=3, help='# of input image channels: 3 for RGB and 1 for grayscale')
@@ -67,7 +67,7 @@ class BaseOptions():
         return parser
 
     def gather_options(self):
-        """Initialize our parser with basic options(only once).
+        """Initialize our opt with basic options(only once).
         Add additional model-specific and dataset-specific options.
         These options are defined in the <modify_commandline_options> function
         in model and dataset classes.
@@ -79,18 +79,18 @@ class BaseOptions():
         # get the basic options
         opt, _ = parser.parse_known_args()
 
-        # modify model-related parser options
+        # modify model-related opt options
         model_name = opt.model
         model_option_setter = models.get_option_setter(model_name)
         parser = model_option_setter(parser, self.isTrain)
         opt, _ = parser.parse_known_args()  # parse again with new defaults
 
-        # modify dataset-related parser options
+        # modify dataset-related opt options
         dataset_name = opt.dataset_name
         dataset_option_setter = data.get_option_setter(dataset_name)
         parser = dataset_option_setter(parser, self.isTrain)
 
-        # save and return the parser
+        # save and return the opt
         self.parser = parser
         return parser.parse_args()
 
