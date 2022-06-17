@@ -6,17 +6,13 @@
 > [Chaofeng Chen](https://chaofengc.github.io), [Xiaoming Li](https://csxmli2016.github.io/), [Lingbo Yang](https://lotayou.github.io), [Xianhui Lin](https://dblp.org/pid/147/7708.html), [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/), [Kwan-Yee K. Wong](https://i.cs.hku.hk/~kykwong/)
 >
 > 本项目基于[PSFR-GAN](https://arxiv.org/abs/2009.08709)完成。查看原始项目说明，参见 `Original-README.md` ，查看原始PSFRGAN项目，参见[此处](https://github.com/chaofengc/PSFRGAN)。
->
-> 
+
+<center><b>超声重建图像处理前后对比</b></center>
 
 <center>
 	<img src='./test_dir/147.png' width=300><img src='./test_result/HQ/000.jpg' width=300>
-     <br>
-    <div style="color:orange; 
-    display: inline-block;
-    color: #999;
-    padding: 2px;">超声重建图像处理前后对比</div>
 </center>
+
 
 ## 环境要求
 
@@ -59,11 +55,9 @@ python test_enhance_single_unalign.py --test_img_path ./test_dir/147.png --resul
 - 运行以下命令，生成对应的语义图：
 
   ```
-  python generate_masks.py --test_img_path  ../datasets/reconstructed_ultrasound_images/imgs1024
-  --results_dir
-  ../datasets/reconstructed_ultrasound_images/masks512
+  python generate_masks.py --test_img_path ../datasets/reconstructed_ultrasound_images/imgs1024 --results_dir ../datasets/reconstructed_ultrasound_images/masks512
   ```
-
+  
 - 本项目使用三维超声重建图像数据下载：
   - [BaiduNetDisk](todo)，提取码：`xxxx`。
 
