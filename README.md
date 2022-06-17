@@ -5,7 +5,8 @@
 > [Progressive Semantic-Aware Style Transformation for Blind Face Restoration](https://arxiv.org/abs/2009.08709)  
 > [Chaofeng Chen](https://chaofengc.github.io), [Xiaoming Li](https://csxmli2016.github.io/), [Lingbo Yang](https://lotayou.github.io), [Xianhui Lin](https://dblp.org/pid/147/7708.html), [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/), [Kwan-Yee K. Wong](https://i.cs.hku.hk/~kykwong/)
 >
-> 本项目基于[PSFR-GAN](https://arxiv.org/abs/2009.08709)完成。查看原始项目说明，参见 `Original-README.md` ；查看原始PSFRGAN项目，参见[此处](https://github.com/chaofengc/PSFRGAN)。
+> 本项目基于[PSFR-GAN](https://arxiv.org/abs/2009.08709)完成。
+> 查看原始项目说明，参见 `Original-README.md` ；查看原始PSFRGAN项目，参见[此处](https://github.com/chaofengc/PSFRGAN)。
 
 <center><b>超声重建图像处理前后对比</b></center>
 
