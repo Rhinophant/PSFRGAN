@@ -27,7 +27,7 @@ class BaseOptions():
         parser.add_argument('--name', type=str, default='experiment_name', help='name of the experiment. It decides where to store samples and models')
         parser.add_argument('--gpus', type=int, default=1, help='how many gpus to use')
         parser.add_argument('--seed', type=int, default=123, help='Random seed for training')
-        parser.add_argument('--checkpoints_dir', type=str, default='.\check_points', help='models are saved here')
+        parser.add_argument('--checkpoints_dir', type=str, default=os.path.join('.', 'checkpoints'), help='models are saved here')
         # model parameters
         parser.add_argument('--model', type=str, default='enhance', help='chooses which model to train [parse|enhance]')
         parser.add_argument('--input_nc', type=int, default=3, help='# of input image channels: 3 for RGB and 1 for grayscale')

@@ -1,0 +1,71 @@
+----------------- Options ---------------
+                    D_num: 3                             
+                Dinput_nc: 22                            	[default: 3]
+                    Dnorm: in                            
+                 Gin_size: 512                           	[default: 512]
+                    Gnorm: spade                         
+                Gout_size: 512                           	[default: 512]
+                Pimg_size: 512                           	[default: 512]
+                    Pnorm: bn                            
+               batch_size: 2                             	[default: 16]
+                    beta1: 0.5                           
+          checkpoints_dir: .\checkpoints                 
+           continue_train: False                         
+                crop_size: 256                           
+                     d_lr: 0.0004                        
+              data_device: cuda:0                        	[default: None]
+                 dataroot: ../datasets/reconstructed_ultrasound_images	[default: None]
+             dataset_name: ffhq                          	[default: single]
+                    debug: False                         
+                   device: cuda:0                        	[default: None]
+                    epoch: latest                        
+              epoch_count: 1                             
+                     g_lr: 0.0001                        
+                 gan_mode: hinge                         
+                  gpu_ids: [0]                           	[default: None]
+                     gpus: 1                             
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: True                          	[default: None]
+                lambda_fm: 10.0                          
+                 lambda_g: 1.0                           
+               lambda_pcp: 0.0                           
+               lambda_pix: 10.0                          
+                lambda_ss: 1000.0                        
+                load_iter: 0                             	[default: 0]
+                load_size: 512                           
+                       lr: 0.0002                        
+           lr_decay_gamma: 1                             
+           lr_decay_iters: 50                            
+                lr_policy: step                          
+         max_dataset_size: inf                           
+                    model: enhance                       
+                 n_epochs: 100                           
+           n_epochs_decay: 100                           
+               n_layers_D: 4                             
+                     name: PSFRGAN_v001                  	[default: experiment_name]
+                      ndf: 64                            
+                      ngf: 64                            
+              niter_decay: 100                           
+                  no_flip: False                         
+           no_strict_load: False                         
+              num_threads: 8                             
+                output_nc: 3                             
+         parse_net_weight: ./pretrain_models/parse_multi_iter_90000.pth
+                    phase: train                         
+               preprocess: none                          
+               print_freq: 10                            	[default: 100]
+             resume_epoch: 0                             
+              resume_iter: 0                             
+             save_by_iter: False                         
+          save_epoch_freq: 5                             
+           save_iter_freq: 5000                          
+         save_latest_freq: 500                           
+                     seed: 123                           
+           serial_batches: False                         
+                   suffix:                               
+             total_epochs: 50                            
+                  verbose: False                         
+              visual_freq: 100                           	[default: 400]
+----------------- End -------------------
