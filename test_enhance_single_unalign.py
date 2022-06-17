@@ -8,6 +8,7 @@ import numpy as np
 from tqdm import tqdm
 from skimage import transform as trans
 from skimage import io
+import time
 
 import torch
 from utils import utils
@@ -91,6 +92,7 @@ def save_imgs(img_list, save_dir):
 
 
 if __name__ == '__main__':
+    start_time = time.clock()
     opt = TestOptions().parse()
     #  face_detector = dlib.get_frontal_face_detector()
     face_detector = dlib.cnn_face_detection_model_v1('./pretrain_models/mmod_human_face_detector.dat')
@@ -125,3 +127,6 @@ if __name__ == '__main__':
     # final_save_path = os.path.join(opt.results_dir, 'hq_final.jpg')
     # print('======> Save final result to', final_save_path)
     # io.imsave(final_save_path, hq_img)
+
+    end_time = time.clock()
+    print('Time used: %s seconds.' % (end_time - start_time))
