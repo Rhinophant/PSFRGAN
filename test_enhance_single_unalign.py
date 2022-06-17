@@ -89,6 +89,7 @@ def save_imgs(img_list, save_dir):
         save_path = os.path.join(save_dir, '{:03d}.jpg'.format(idx))
         io.imsave(save_path, img.astype(np.uint8))
 
+
 if __name__ == '__main__':
     opt = TestOptions().parse()
     #  face_detector = dlib.get_frontal_face_detector()
@@ -99,7 +100,8 @@ if __name__ == '__main__':
     print('======> Loading images, crop and align faces.')
     img_path = opt.test_img_path 
     img = dlib.load_rgb_image(img_path)
-    aligned_faces, tform_params = detect_and_align_faces(img, face_detector, lmk_predictor, template_path)
+    # aligned_faces, tform_params = detect_and_align_faces(img, face_detector, lmk_predictor, template_path)
+    aligned_faces, tform_params = np.array([img]), None
     # Save aligned LQ faces
     save_lq_dir = os.path.join(opt.results_dir, 'LQ_faces') 
     os.makedirs(save_lq_dir, exist_ok=True)
@@ -117,10 +119,10 @@ if __name__ == '__main__':
     save_imgs(lq_parse_maps, save_parse_dir)
     save_imgs(hq_faces, save_hq_dir)
 
-    print('======> Paste the enhanced faces back to the original image.')
-    hq_img = past_faces_back(img, hq_faces, tform_params, upscale=opt.test_upscale) 
-    final_save_path = os.path.join(opt.results_dir, 'hq_final.jpg') 
-    print('======> Save final result to', final_save_path)
-    io.imsave(final_save_path, hq_img)
+    # print('======> Paste the enhanced faces back to the original image.')
+    # hq_img = past_faces_back(img, hq_faces, tform_params, upscale=opt.test_upscale)
+    # final_save_path = os.path.join(opt.results_dir, 'hq_final.jpg')
+    # print('======> Save final result to', final_save_path)
+    # io.imsave(final_save_path, hq_img)
 
 
