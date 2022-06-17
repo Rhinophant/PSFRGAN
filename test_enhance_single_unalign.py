@@ -16,6 +16,48 @@ from options.test_options import TestOptions
 from models import create_model
 
 
+def check_label(pixel):
+    LABELS = {
+        # 'hair': np.array([128, 128, 0]),
+        'face': np.array([0, 128, 0]),
+        'left_eye': np.array([0, 0, 128]),
+        'right_eye': np.array([64, 0, 0]),
+        'nose': np.array([128, 128, 128]),
+        'upper_lip': np.array([192, 0, 0]),
+        'lower_lip': np.array([128, 0, 128]),
+        'neck': np.array([0, 128, 128]),
+        'body': np.array([128, 0, 0]),
+        'background': np.array([0, 0, 0]),
+    }
+    for key, value in enumerate(LABELS):
+        if value[0] == pixel[0] and value[1] == pixel[1] and value[2] == pixel[2]:
+            return key
+    return 'background'
+
+
+def parsemap2tensor(path):
+    position = {
+        'face': 1,
+        'left_eye': 5,
+        'right_eye': 4,
+        'nose': 2,
+        'upper_lip': 11,
+        'lower_lip': 12,
+        'neck': 17,
+        'body': 18,
+        'background': 0,
+    }
+    img = cv2.imread(path)
+    height, width = img.shape[0], img.shape[1]
+    assert height == 512 and width == 512
+    tensor = np.zeros((1, 19, 512, 512))
+    for i in range(height):
+        for j in range(width):
+            label = check_label(img[i][j])
+            tensor[0][position[label]][i][j] = 1
+    return torch.tensor(tensor, dtype=torch.float32)
+
+
 def detect_and_align_faces(img, face_detector, lmk_predictor, template_path, template_scale=2, size_threshold=999):
     align_out_size = (512, 512)
     ref_points = np.load(template_path) / template_scale
@@ -55,7 +97,7 @@ def def_models(opt):
     return model
 
 
-def enhance_faces(LQ_faces, model):
+def enhance_faces(LQ_faces, model, opt):
     hq_faces = []
     lq_parse_maps = []
     for lq_face in tqdm(LQ_faces):
@@ -63,7 +105,13 @@ def enhance_faces(LQ_faces, model):
             lq_tensor = torch.tensor(lq_face.transpose(2, 0, 1)) / 255. * 2 - 1
             lq_tensor = lq_tensor.unsqueeze(0).float().to(model.device)
             parse_map, _ = model.netP(lq_tensor)
-            parse_map_onehot = (parse_map == parse_map.max(dim=1, keepdim=True)[0]).float()
+            if opt.manual_parse and opt.manual_parse_map_dir != '':
+                parse_map_onehot = parsemap2tensor(opt.manual_parse_map_dir)
+            elif opt.manual_parse and opt.manual_parse_map_dir == '':
+                print('Manual parse map not specified, using automatic parsing map instead.')
+                parse_map_onehot = (parse_map == parse_map.max(dim=1, keepdim=True)[0]).float()
+            else:
+                parse_map_onehot = (parse_map == parse_map.max(dim=1, keepdim=True)[0]).float()
             output_SR = model.netG(lq_tensor, parse_map_onehot)
         hq_faces.append(utils.tensor_to_img(output_SR))
         lq_parse_maps.append(utils.color_parse_map(parse_map_onehot)[0])
@@ -112,7 +160,7 @@ if __name__ == '__main__':
     save_imgs(aligned_faces, save_lq_dir)
 
     enhance_model = def_models(opt)
-    hq_faces, lq_parse_maps = enhance_faces(aligned_faces, enhance_model)
+    hq_faces, lq_parse_maps = enhance_faces(aligned_faces, enhance_model, opt)
     # Save LQ parsing maps and enhanced faces
     save_parse_dir = os.path.join(opt.results_dir, 'ParseMaps')
     save_hq_dir = os.path.join(opt.results_dir, 'HQ')

@@ -17,6 +17,8 @@ class TestOptions(BaseOptions):
         parser.add_argument('--results_dir', type=str, default='./results/', help='saves results here.')
         parser.add_argument('--aspect_ratio', type=float, default=1.0, help='aspect ratio of result images')
         parser.add_argument('--phase', type=str, default='test', help='train, val, test, etc')
+        parser.add_argument('--manual_parse', type=bool, default=False, help='if the parse map is generated manually')
+        parser.add_argument('--manual_parse_map_dir', type=str, default='', help='the path of manual parse map')
         # Dropout and Batchnorm has different behavioir during training and test.
         parser.add_argument('--eval', action='store_true', help='use eval mode during test time.')
         parser.add_argument('--num_test', type=int, default=50, help='how many test images to run')

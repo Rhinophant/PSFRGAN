@@ -38,12 +38,32 @@ python test_enhance_single_unalign.py --test_img_path ./test_dir/147.png --resul
 ```
 
 - `--test_img_path` 为输入图片的位置。
+
 - `--result_dir` 为输出结果的路径。
   - `test_results/LQ_faces` 为需要处理的低通图像。
   - `test_results/ParseMaps` 为低通图像的语义图。
   - `test_results/HQ` 为处理结果。
+  
 - `--gpus` 为需要使用的GPU，`<=0` 表示使用CPU来运行。
+
+- `--manual_parse` 表示是否使用手动分割图，若是，则需要在 `--manual_parse_map_dir` 选项处指明手动分割图的路径，否则将会使用自动分割网络进行分割。
+
+  生成手动分割图片可以使用[ImageJ](https://imagej.nih.gov/ij/)。分割时，需要将人脸分割为以下几个部位，并分别附以不同的颜色：
+
+  | 部位       | R (Red) | G (Green) | B (Blue) |
+  | ---------- | ------- | --------- | -------- |
+  | face       | 0       | 128       | 0        |
+  | left eye   | 0       | 0         | 128      |
+  | right eye  | 64      | 0         | 0        |
+  | nose       | 128     | 128       | 128      |
+  | upper lip  | 192     | 0         | 0        |
+  | lower lip  | 128     | 0         | 128      |
+  | neck       | 0       | 128       | 128      |
+  | body       | 128     | 0         | 0        |
+  | background | 0       | 0         | 0        |
+
 - 使用 Nvidia GTX1060 6GB 显卡进行处理，单张 512 * 512 的图片需要约3.02秒，峰值显存占用约1.8GB。
+
 - 使用 Intel Core i7-8700 CPU 进行处理，单张 512 * 512 的图片需要约6.37秒，峰值CPU占用率约71%。
 
 ## 训练模型
