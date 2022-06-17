@@ -5,7 +5,7 @@
 > [Progressive Semantic-Aware Style Transformation for Blind Face Restoration](https://arxiv.org/abs/2009.08709)  
 > [Chaofeng Chen](https://chaofengc.github.io), [Xiaoming Li](https://csxmli2016.github.io/), [Lingbo Yang](https://lotayou.github.io), [Xianhui Lin](https://dblp.org/pid/147/7708.html), [Lei Zhang](https://www4.comp.polyu.edu.hk/~cslzhang/), [Kwan-Yee K. Wong](https://i.cs.hku.hk/~kykwong/)
 >
-> 本项目基于[PSFR-GAN](https://arxiv.org/abs/2009.08709)完成。查看原始项目说明，参见 `Original-README.md` ，查看原始PSFRGAN项目，参见[此处](https://github.com/chaofengc/PSFRGAN)。
+> 本项目基于[PSFR-GAN](https://arxiv.org/abs/2009.08709)完成。查看原始项目说明，参见 `Original-README.md` ；查看原始PSFRGAN项目，参见[此处](https://github.com/chaofengc/PSFRGAN)。
 
 <center><b>超声重建图像处理前后对比</b></center>
 
@@ -24,7 +24,7 @@
 
 - 下载预训练模型：
 
-  - [BaiduNetDisk](todo)，提取码：`xxxx`
+  - [BaiduNetDisk](https://pan.baidu.com/s/1R2NCCvpTUPouiFfuIw88kA)，提取码：`y7in`。
   - 将所有预训练模型放置在路径 `./pretrain_models` 下。
 
 ## 测试运行
@@ -59,7 +59,7 @@ python test_enhance_single_unalign.py --test_img_path ./test_dir/147.png --resul
   ```
   
 - 本项目使用三维超声重建图像数据下载：
-  - [BaiduNetDisk](todo)，提取码：`xxxx`。
+  - [BaiduNetDisk](https://pan.baidu.com/s/1GYQV59jofjjeZBxU5RYTYg)，提取码：`j0xs`。
 
 ### 训练PSFRGAN
 
