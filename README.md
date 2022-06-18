@@ -77,7 +77,7 @@ python test_enhance_single_unalign.py --test_img_path ./test_dir/147.png --resul
 - 运行以下命令，生成对应的语义图：
 
   ```
-  python generate_masks.py --test_img_path ../datasets/reconstructed_ultrasound_images/imgs1024 --results_dir ../datasets/reconstructed_ultrasound_images/masks512
+  python dataset_masks.py --test_img_path ../datasets/reconstructed_ultrasound_images/imgs1024 --results_dir ../datasets/reconstructed_ultrasound_images/masks512
   ```
   
 - 本项目使用三维超声重建图像数据下载：
