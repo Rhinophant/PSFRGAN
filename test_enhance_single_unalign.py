@@ -105,9 +105,9 @@ def enhance_faces(LQ_faces, model, opt):
             lq_tensor = torch.tensor(lq_face.transpose(2, 0, 1)) / 255. * 2 - 1
             lq_tensor = lq_tensor.unsqueeze(0).float().to(model.device)
             parse_map, _ = model.netP(lq_tensor)
-            if opt.manual_parse and opt.manual_parse_map_dir != '':
+            if opt.manual_parse == 'True' and opt.manual_parse_map_dir != '':
                 parse_map_onehot = parsemap2tensor(opt.manual_parse_map_dir)
-            elif opt.manual_parse and opt.manual_parse_map_dir == '':
+            elif opt.manual_parse == 'True' and opt.manual_parse_map_dir == '':
                 print('Manual parse map not specified, using automatic parsing map instead.')
                 parse_map_onehot = (parse_map == parse_map.max(dim=1, keepdim=True)[0]).float()
             else:
@@ -133,10 +133,10 @@ def past_faces_back(img, hq_faces, tform_params, upscale=1):
     return img.astype(np.uint8)
 
 
-def save_imgs(img_list, save_dir):
+def save_imgs(img_list, save_dir, img_names):
     for idx, img in enumerate(img_list):
-        save_path = os.path.join(save_dir, '{:03d}.jpg'.format(idx))
-        io.imsave(save_path, img.astype(np.uint8))
+        # cv2.imwrite(os.path.join(save_dir, '%s.jpg' % img_names[idx]), img)
+        io.imsave(os.path.join(save_dir, '%s.jpg' % img_names[idx]), img.astype(np.uint8))
 
 
 if __name__ == '__main__':
@@ -149,32 +149,43 @@ if __name__ == '__main__':
 
     print('======> Loading images, crop and align faces.')
     img_path = opt.test_img_path
-    img = dlib.load_rgb_image(img_path)
-    assert img.shape == (512, 512, 3), 'Input image size should be 512 * 512 with 3 channels.'
-    # aligned_faces, tform_params = detect_and_align_faces(img, face_detector, lmk_predictor, template_path)
-    aligned_faces, tform_params = np.array([img]), None
+    imgs = []
+    img_names = []
+    if os.path.isdir(opt.test_img_path):
+        for f in os.listdir(opt.test_img_path):
+            try:
+                img = dlib.load_rgb_image(os.path.join(opt.test_img_path, f))
+            except RuntimeError:
+                print('%s is not an image file.' % f)
+                continue
+            assert img.shape[0] == img.shape[1], 'Height and width of the image must be the same!'
+            img = cv2.resize(img, (512, 512))
+            imgs.append(img)
+            img_names.append(f)
+    else:
+        imgs.append(dlib.load_rgb_image(opt.test_img_path))
+        img_names.append(os.path.basename(opt.test_img_path))
+    print('%d images found...' % len(imgs))
+    aligned_faces = np.array(imgs)
+
     # Save aligned LQ faces
     save_lq_dir = os.path.join(opt.results_dir, 'LQ_faces')
     os.makedirs(save_lq_dir, exist_ok=True)
     print('======> Saving aligned LQ faces to', save_lq_dir)
-    save_imgs(aligned_faces, save_lq_dir)
+    save_imgs(aligned_faces, save_lq_dir, img_names)
 
+    # Load models, and enhance the faces
     enhance_model = def_models(opt)
     hq_faces, lq_parse_maps = enhance_faces(aligned_faces, enhance_model, opt)
+
     # Save LQ parsing maps and enhanced faces
     save_parse_dir = os.path.join(opt.results_dir, 'ParseMaps')
     save_hq_dir = os.path.join(opt.results_dir, 'HQ')
     os.makedirs(save_parse_dir, exist_ok=True)
     os.makedirs(save_hq_dir, exist_ok=True)
     print('======> Save parsing map and the enhanced faces.')
-    save_imgs(lq_parse_maps, save_parse_dir)
-    save_imgs(hq_faces, save_hq_dir)
-
-    # print('======> Paste the enhanced faces back to the original image.')
-    # hq_img = past_faces_back(img, hq_faces, tform_params, upscale=opt.test_upscale)
-    # final_save_path = os.path.join(opt.results_dir, 'hq_final.jpg')
-    # print('======> Save final result to', final_save_path)
-    # io.imsave(final_save_path, hq_img)
+    save_imgs(lq_parse_maps, save_parse_dir, img_names)
+    save_imgs(hq_faces, save_hq_dir, img_names)
 
     end_time = time.clock()
     print('Time used: %s seconds.' % (end_time - start_time))
