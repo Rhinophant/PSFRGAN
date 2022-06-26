@@ -15,10 +15,7 @@ from utils import utils
 from options.test_options import TestOptions
 from models import create_model
 
-
-def check_label(pixel):
-    LABELS = {
-        # 'hair': np.array([128, 128, 0]),
+LABELS = {
         'face': np.array([0, 128, 0]),
         'left_eye': np.array([0, 0, 128]),
         'right_eye': np.array([64, 0, 0]),
@@ -29,7 +26,10 @@ def check_label(pixel):
         'body': np.array([128, 0, 0]),
         'background': np.array([0, 0, 0]),
     }
-    for key, value in enumerate(LABELS):
+
+
+def check_label(pixel, labels):
+    for key, value in enumerate(labels):
         if value[0] == pixel[0] and value[1] == pixel[1] and value[2] == pixel[2]:
             return key
     return 'background'
@@ -53,7 +53,7 @@ def parsemap2tensor(path):
     tensor = np.zeros((1, 19, 512, 512))
     for i in range(height):
         for j in range(width):
-            label = check_label(img[i][j])
+            label = check_label(img[i][j], LABELS)
             tensor[0][position[label]][i][j] = 1
     return torch.tensor(tensor, dtype=torch.float32)
 
