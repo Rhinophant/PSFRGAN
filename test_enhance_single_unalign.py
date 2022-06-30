@@ -15,25 +15,6 @@ from utils import utils
 from options.test_options import TestOptions
 from models import create_model
 
-LABELS = {
-        'face': np.array([0, 128, 0]),
-        'left_eye': np.array([0, 0, 128]),
-        'right_eye': np.array([64, 0, 0]),
-        'nose': np.array([128, 128, 128]),
-        'upper_lip': np.array([192, 0, 0]),
-        'lower_lip': np.array([128, 0, 128]),
-        'neck': np.array([0, 128, 128]),
-        'body': np.array([128, 0, 0]),
-        'background': np.array([0, 0, 0]),
-    }
-
-
-def check_label(pixel, labels):
-    for key, value in enumerate(labels):
-        if value[0] == pixel[0] and value[1] == pixel[1] and value[2] == pixel[2]:
-            return key
-    return 'background'
-
 
 def parsemap2tensor(path):
     position = {
@@ -53,7 +34,7 @@ def parsemap2tensor(path):
     tensor = np.zeros((1, 19, 512, 512))
     for i in range(height):
         for j in range(width):
-            label = check_label(img[i][j], LABELS)
+            label = utils.check_label(img[i][j], utils.LABELS)
             tensor[0][position[label]][i][j] = 1
     return torch.tensor(tensor, dtype=torch.float32)
 

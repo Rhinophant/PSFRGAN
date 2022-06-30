@@ -10,6 +10,24 @@ MASK_COLORMAP = [[0, 0, 0], [204, 0, 0], [76, 153, 0], [204, 204, 0], [51, 51, 2
 
 label_list = ['skin', 'nose', 'eye_g', 'l_eye', 'r_eye', 'l_brow', 'r_brow', 'l_ear', 'r_ear', 'mouth', 'u_lip', 'l_lip', 'hair', 'hat', 'ear_r', 'neck_l', 'neck', 'cloth']
 
+LABELS = {
+        'face': np.array([0, 128, 0]),
+        'left_eye': np.array([0, 0, 128]),
+        'right_eye': np.array([64, 0, 0]),
+        'nose': np.array([128, 128, 128]),
+        'upper_lip': np.array([192, 0, 0]),
+        'lower_lip': np.array([128, 0, 128]),
+        'neck': np.array([0, 128, 128]),
+        'body': np.array([128, 0, 0]),
+        'background': np.array([0, 0, 0]),
+    }
+
+def check_label(pixel, labels):
+    for key, value in enumerate(labels):
+        if labels[value][0] == pixel[0] and labels[value][1] == pixel[1] and labels[value][2] == pixel[2]:
+            return value
+    return 'background'
+
 def array_to_heatmap(x):
     x = (x - x.min()) / (x.max() - x.min()) * 255
     x = x.astype(np.uint8)
